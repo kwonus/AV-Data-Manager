@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RootNamespace>AV_Data_Manager</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,7 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gutenburg-press-256.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AV-API\AV-API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="gutenburg-press-256.ico" />
   </ItemGroup>
 
 </Project>

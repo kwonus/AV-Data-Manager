@@ -18,20 +18,20 @@ namespace AV_Data_Manager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SplashScreen : Window
     {
         private bool running;
         private HostedWebServer Server;
         private DispatcherTimer Timer;
 
-        public MainWindow()
+        public SplashScreen()
         {
             this.ShowInTaskbar = false;
             InitializeComponent();
             this.running = false;
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += new EventHandler(Timer_Tick);
-            this.Timer.Interval = new TimeSpan(hours: 0, minutes: 0, seconds: 5);
+            this.Timer.Interval = new TimeSpan(hours: 0, minutes: 0, seconds: 11);
             this.Timer.Start();
 
             this.InitializeWebServer();
@@ -78,7 +78,7 @@ namespace AV_Data_Manager
             Statusbar.ShowStatusSuccess("Server started.");
 #endif
             var server = this.Server.LaunchAsync();
-            MainWindow.FireAndForget(server);
+            SplashScreen.FireAndForget(server);
             this.running = true;
             this.StartStop.Content = "Stop";
 
