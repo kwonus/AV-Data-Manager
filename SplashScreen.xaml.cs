@@ -12,6 +12,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AVAPI;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
+using Pinshot.Blue;
 
 namespace AV_Data_Manager
 {
@@ -21,13 +23,34 @@ namespace AV_Data_Manager
     public partial class SplashScreen : Window
     {
         private bool running;
-        private HostedWebServer Server;
+        private HostedWebServer? Server;
         private DispatcherTimer Timer;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern IntPtr FindWindow(string? lpClassName, string? lpWindowName);
+
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint wMsg, UIntPtr wParam, IntPtr lParam);
+
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+        const int WM_QUIT  = 0x0012;
+        const int WM_CLOSE = 0x0010;
 
         public SplashScreen()
         {
+            var existing = FindWindow(null, "AV Data Manager"); // Force a single instance
+            if (existing > 0)
+            {
+                SendMessage(existing, WM_CLOSE, UIntPtr.Zero, IntPtr.Zero);
+            }
             this.ShowInTaskbar = false;
             InitializeComponent();
+            this.Revision.Text = "AV-Bible Revision: " + Pinshot_RustFFI.VERSION;
             this.running = false;
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += new EventHandler(Timer_Tick);

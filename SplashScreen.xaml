@@ -16,6 +16,7 @@
         <Image x:Name="AVIcon" Source="/gutenburg-press-256.ico" Stretch="Fill" Height="257" VerticalAlignment="Center" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="256" Margin="17,0,0,0"/>
         <TextBlock FontSize="32" TextWrapping="Wrap" Margin="144,51,0,0" Text="AV Data-Manager" Height="56" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="335"/>
         <TextBlock FontSize="16" TextWrapping="Wrap" Margin="144,112,0,0" Text="For AV-Bible Addin for Microsoft Word to function correctly, AV Data-Manager needs to be running." Height="56" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Left" Width="368"/>
-        <TextBlock FontSize="12" TextWrapping="Wrap" Margin="144,170,0,0" Text="This application continues to run even after the splash screen disappears." Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="416" Grid.Column="1"/>
+        <TextBlock FontSize="12" TextWrapping="Wrap" Margin="144,170,0,0" Text="This application continues to run even after the splash screen disappears." Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="399" Grid.Column="1"/>
+        <TextBlock x:Name="Revision" FontSize="12" TextWrapping="Wrap" Margin="144,198,0,0" Text="AV-Bible Revision: Unknown" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="399" Grid.Column="1"/>
     </Grid>
 </Window>
