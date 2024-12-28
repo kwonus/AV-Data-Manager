@@ -50,7 +50,7 @@ namespace AV_Data_Manager
             }
             this.ShowInTaskbar = false;
             InitializeComponent();
-            this.Revision.Text = "AV-Bible Revision: " + Pinshot_RustFFI.VERSION;
+            this.Revision.Text = "Digital-AV Edition: " + Pinshot_RustFFI.VERSION;
             this.running = false;
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += new EventHandler(Timer_Tick);
