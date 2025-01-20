@@ -14,6 +14,12 @@ using AVAPI;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using Pinshot.Blue;
+using Blueprint.Blue;
+using AVXFramework;
+using System.IO;
+using System.Collections;
+using System.Linq.Expressions;
+using System.Runtime.Intrinsics.X86;
 
 namespace AV_Data_Manager
 {
@@ -41,6 +47,45 @@ namespace AV_Data_Manager
         const int WM_QUIT  = 0x0012;
         const int WM_CLOSE = 0x0010;
 
+        private string GetVersionDigitalAV()
+        {
+            StringBuilder version = new(8);
+            string omega = AVEngine.Data;
+            if (System.IO.File.Exists(omega))
+            {
+                try
+                {
+                    using (FileStream fs = new FileStream(omega, FileMode.Open, FileAccess.Read, FileShare.Read))
+                    {
+                        using (BinaryReader br = new BinaryReader(fs))
+                        {
+                            byte c;
+                            UInt32 i;
+                            UInt64 value = 0;
+                            for (int x = 0; x < 16; x++)
+                                c = br.ReadByte();
+                            for (int x = 0; x < 4; x++)
+                                i = br.ReadUInt32();
+                            for (int x = 0; x < 2; x++)
+                                value = br.ReadUInt64();
+
+                            version.Append((value >> 12).ToString("X"));
+                            version.Append(".");
+                            version.Append(((value & 0xF00) >> 8).ToString("X"));
+                            version.Append(".");
+                            version.Append((value & 0xFF).ToString("X"));
+                            version.Append("  Ω");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    version.Clear();
+                    version.Append("Unknown");
+                }
+            }
+            return version.ToString();
+        }
         public SplashScreen()
         {
             var existing = FindWindow(null, "AV Data Manager"); // Force a single instance
@@ -50,7 +95,8 @@ namespace AV_Data_Manager
             }
             this.ShowInTaskbar = false;
             InitializeComponent();
-            this.Revision.Text = "Digital-AV Edition: " + Pinshot_RustFFI.VERSION;
+            this.Revision_S4T.Text = "S4T Grammar Version: " + Pinshot_RustFFI.VERSION;
+            this.Revision_DAV.Text = "Digital-AV SDK: " + GetVersionDigitalAV();
             this.running = false;
             this.Timer = new DispatcherTimer();
             this.Timer.Tick += new EventHandler(Timer_Tick);
