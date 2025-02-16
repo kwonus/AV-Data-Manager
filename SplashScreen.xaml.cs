@@ -6,6 +6,7 @@ using System.IO;
 using AVXFramework;
 using Pinshot.Blue;
 using AVAPI;
+using AVXLib.Memory;
 
 namespace AV_Data_Manager
 {
@@ -34,41 +35,15 @@ namespace AV_Data_Manager
 
         private string GetVersionDigitalAV()
         {
-            StringBuilder version = new(8);
-            string omega = AVEngine.Data;
-            if (System.IO.File.Exists(omega))
-            {
-                try
-                {
-                    using (FileStream fs = new FileStream(omega, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        using (BinaryReader br = new BinaryReader(fs))
-                        {
-                            byte c;
-                            UInt32 i;
-                            UInt64 value = 0;
-                            for (int x = 0; x < 16; x++)
-                                c = br.ReadByte();
-                            for (int x = 0; x < 4; x++)
-                                i = br.ReadUInt32();
-                            for (int x = 0; x < 2; x++)
-                                value = br.ReadUInt64();
+            StringBuilder version = new();
 
-                            version.Append((value >> 12).ToString("X"));
-                            version.Append(".");
-                            version.Append(((value & 0xF00) >> 8).ToString("X"));
-                            version.Append(".");
-                            version.Append((value & 0xFF).ToString("X"));
-                            version.Append("  Ω");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    version.Clear();
-                    version.Append("Unknown");
-                }
-            }
+            version.Append((Deserialization.Data.Version >> 12).ToString("X"));
+            version.Append(".");
+            version.Append(((Deserialization.Data.Version & 0xF00) >> 8).ToString("X"));
+            version.Append(".");
+            version.Append((Deserialization.Data.Version & 0xFF).ToString("X"));
+            version.Append("  Ω");
+
             return version.ToString();
         }
         public SplashScreen()
