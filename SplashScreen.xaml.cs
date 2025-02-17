@@ -7,6 +7,10 @@ using AVXFramework;
 using Pinshot.Blue;
 using AVAPI;
 using AVXLib.Memory;
+using System.Windows.Controls;
+using Microsoft.Win32;
+using System.Windows.Interop;
+using System;
 
 namespace AV_Data_Manager
 {
@@ -16,7 +20,7 @@ namespace AV_Data_Manager
     public partial class SplashScreen : Window
     {
         private bool running;
-        private HostedWebServer? Server;
+        private API? Server;
         private DispatcherTimer Timer;
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -55,6 +59,7 @@ namespace AV_Data_Manager
             }
             this.ShowInTaskbar = false;
             InitializeComponent();
+
             this.Revision_S4T.Text = "S4T Grammar Version: " + Pinshot_RustFFI.VERSION;
             this.Revision_DAV.Text = "Digital-AV SDK: " + GetVersionDigitalAV();
             this.running = false;
@@ -77,7 +82,7 @@ namespace AV_Data_Manager
 
         private void InitializeWebServer()
         {
-            Server = new API();
+            this.Server = new API();
             var server = this.Server.LaunchAsync();
             SplashScreen.FireAndForget(server);
             this.running = true;
@@ -92,7 +97,8 @@ namespace AV_Data_Manager
         private void Timer_Tick(object sender, EventArgs e)
         {
             this.Timer.Interval = new TimeSpan(hours: 24, minutes: 0, seconds: 0);
+            this.Timer.Stop();
             this.Hide();
-        }
+         }
     }
 }
